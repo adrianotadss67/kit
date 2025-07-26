@@ -1,7 +1,8 @@
 const CACHE_NAME = 'pwa-cache-v1';
 const PRECACHE_URLS = [
  "./",
-  "./index.html"
+  "./index.html",
+  "./offline.html
 ];
 
 // Instala e faz o precache
