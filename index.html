@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kit de Resistência Digital</title>
+  <style>
+   
+      :root {
+      --bg-color: #f5f5f5;
+      --text-color: #222;
+      --link-color: #0066cc;
+      --link-hover: #004999;
+    }
+
+     [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --link-color: #66aaff;
+      --link-hover: #aaccee;
+    }
+    [data-theme="eink"] {
+      --bg-color: #fff;
+      --text-color: #000;
+      --link-color: #000;
+      --link-hover: #444;
+    }
+    html, body {
+      margin: 0;
+      padding: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: monospace;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    body[data-stealth="true"] {
+      background: #111;
+      color: #0f0;
+      font-family: monospace;
+    }
+    body[data-stealth="true"] header,
+    body[data-stealth="true"] section,
+    body[data-stealth="true"] footer {
+      display: none;
+    }
+  body[data-stealth="true"] #stealth-ui {
+      display: block;
+      padding: 2rem;
+      font-size: 1.5rem;
+    }
+    #stealth-ui {
+      display: none;
+    }
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+   header {
+      background: linear-gradient(to right, #ccc, #eee);
+      box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.6);
+      padding: 1rem;
+      border-bottom: 2px solid #999;
+      text-align: center;
+      user-select: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    section {
+      margin-top: 1rem;
+    }
+    details {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin: 0.25rem 0;
+    }
+    input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 2rem;
+      user-select: none;
+    }
+
+    /* Grid de apps pessoais */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .app-tile {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .app-tile[data-theme="dark"],
+    .app-tile[data-theme="eink"] {
+      background: var(--bg-color);
+      color: var(--text-color);
+      border-color: #666;
+      box-shadow: none;
+    }
+
+    .app-tile a {
+      display: block;
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .app-tile a:hover {
+      text-decoration: underline;
+    }
+
+    .emoji {
+      font-size: 2rem;
+    }
+
+    /* Botões */
+    .btn-group {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    button {
+      font-family: monospace;
+      margin: 0 0.5rem;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      border: 1px solid #666;
+      background: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background: var(--link-color);
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body data-theme="default">
+
+  <header>
+    <h1>🛠️ Kit de Resistência Digital – Pessoal e Offline</h1>
+    <div class="btn-group">
+      <button onclick="toggleTheme('default')">Tema Claro</button>
+      <button onclick="toggleTheme('eink')">Modo E-Ink</button>
+      <button onclick="toggleTheme('dark')">Modo Escuro</button>
+      <button onclick="toggleStealth()">🕶️ Modo Disfarçado</button>
+      <button onclick="panicErase()">🧹 Apagar Dados</button>
+    </div>
+    <div class="btn-group">
+      <button id="backupBtn">💾 Exportar Backup</button>
+      <button id="restoreBtn">♻️ Restaurar Backup</button>
+      <input type="file" id="fileInput" style="display:none" accept=".json" />
+    </div>
+    <div class="btn-group">
+      <button id="toggleSyncBtn">🔗 Sincronização OFF</button>
+    </div>
+  </header>
+  
+   <section>
+    <details open>
+      <summary>🔐 Navegação e Privacidade</summary>
+      <label><input type="checkbox" data-id="nav1" /> 🦁 Instalar</a> <a href="https://brave.com/" target="_blank"
+          rel="noopener noreferrer">Brave</a></label>
+      <label><input type="checkbox" data-id="nav2" /> 🧩 <a href="https://ublockorigin.com/" target="_blank"
+          rel="noopener noreferrer">uBlock Origin</a>, <a href="https://privacybadger.org/" target="_blank"
+          rel="noopener noreferrer">Privacy Badger</a>, <a href="https://clearurls.xyz/" target="_blank"
+          rel="noopener noreferrer">ClearURLs</a></label>
+      <label><input type="checkbox" data-id="nav3" /> 🔍 <a href="https://duckduckgo.com" target="_blank"
+          rel="noopener noreferrer">DuckDuckGo</a> ou <a href="https://www.startpage.com" target="_blank"
+          rel="noopener noreferrer">Startpage</a></label>
+      <label><input type="checkbox" data-id="nav4" /> 🧪 <a href="https://minbrowser.org/" target="_blank"
+          rel="noopener noreferrer">Min</a> ou <a href="https://librewolf.net/" target="_blank"
+          rel="noopener noreferrer">LibreWolf</a></label>
+    </details>
+
+    <details>
+      <summary>📱 Mensagens e Comunicação Segura</summary>
+      <label><input type="checkbox" data-id="msg1" /> 🔒 <a href="https://signal.org/" target="_blank"
+          rel="noopener noreferrer">Usar Signal</a> como mensageiro principal</label>
+      <label><input type="checkbox" data-id="msg2" /> 🟣 <a href="https://getsession.org/" target="_blank"
+          rel="noopener noreferrer">Session</a> ou 🧬 <a href="https://matrix.org/" target="_blank"
+          rel="noopener noreferrer">Matrix (Element)</a></label>
+      <label><input type="checkbox" data-id="msg3" /> 📧 <a href="https://proton.me/" target="_blank"
+          rel="noopener noreferrer">ProtonMail</a> ou <a href="https://tutanota.com/" target="_blank"
+          rel="noopener noreferrer">Tutanota</a></label>
+    </details>
+
+    <details>
+      <summary>💻 Software e Armazenamento Livre</summary>
+      <label><input type="checkbox" data-id="soft1" /> ☁️ <a href="https://nextcloud.com/" target="_blank"
+          rel="noopener noreferrer">Nextcloud</a> ou <a href="https://syncthing.net/" target="_blank"
+          rel="noopener noreferrer">Syncthing</a></label>
+      <label><input type="checkbox" data-id="soft2" /> 📰 <a href="https://wallabag.org/" target="_blank"
+          rel="noopener noreferrer">Salvar favoritos com Wallabag</a></label>
+      <label><input type="checkbox" data-id="soft3" /> 📡 Usar leitor de <a href="https://feedly.com/" target="_blank"
+          rel="noopener noreferrer">Feed RSS</a></label>
+    </details>
+
+    <details>
+      <summary>📂 Apps Offline Essenciais (PWAs)</summary>
+      <label><input type="checkbox" data-id="apps1" /> ✍️ Editor de texto local com IndexedDB</label>
+      <label><input type="checkbox" data-id="apps2" /> 🗂️ Gerenciador de arquivos local (navegador)</label>
+      <label><input type="checkbox" data-id="apps3" /> 📝 Lembretes e blocos de anotações com salvamento
+        automático</label>
+      <label><input type="checkbox" data-id="apps4" /> 📖 Leitor de e-books e Markdown local</label>
+    </details>
+
+    <details>
+      <summary>🚫 Desintoxicação Digital</summary>
+      <label><input type="checkbox" data-id="detox1" /> 🔕 Desligar notificações desnecessárias</label>
+      <label><input type="checkbox" data-id="detox2" /> ⏳ Estabelecer tempo offline diário</label>
+      <label><input type="checkbox" data-id="detox3" /> 📵 Reduzir redes sociais a uso essencial</label>
+    </details>
+
+    <details>
+      <summary>🌍 Modo Nômade / Sem Internet</summary>
+      <label><input type="checkbox" data-id="nomade1" /> 📲 Instalar apps via <a href="https://f-droid.org/"
+          target="_blank" rel="noopener noreferrer">F-Droid</a> e <a href="https://auroraoss.com/" target="_blank"
+          rel="noopener noreferrer">Aurora Store</a></label>
+      <label><input type="checkbox" data-id="nomade2" /> 🔥 Configurar firewall local com <a
+          href="https://www.netguard.me/" target="_blank" rel="noopener noreferrer">NetGuard</a> ou <a
+          href="https://rethinkdns.com/" target="_blank" rel="noopener noreferrer">RethinkDNS</a></label>
+      <label><input type="checkbox" data-id="nomade3" /> 🛜 Usar localStorage, IndexedDB e GunDB para apps
+        offline</label>
+      <label><input type="checkbox" data-id="nomade4" /> 🧰 Criar servidor local com PWAs essenciais</label>
+
+    </details>
+  </section>
+  <section>
+    <h2>📁 Atalhos Pessoais</h2>
+    <div class="app-grid">
+      <div class="app-tile">
+        <div class="emoji">🗂️</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/filemanager.html">Gerenciador</a>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🧮</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/word/word.html">Editor</a>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🧠</div><a href="https://webdesktop-b5wu.onrender.com/">Desktop</a>
+      </div>
+      <div class="app-tile">
+        <div class="emoji">🔗</div><a href="./links.html">Atalhos</a>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+  <details>
+    <summary>🚨 Cenário de Crise Total</summary>
+    <label><input type="checkbox" data-id="crise1" /> 🔋 Uso com energia mínima</label>
+    <label><input type="checkbox" data-id="crise2" /> 📦 Kit portátil em pendrive</label>
+    <label><input type="checkbox" data-id="crise3" /> 🛜 Redes mesh offline</label>
+    <label><input type="checkbox" data-id="crise4" /> 📚 Biblioteca offline básica</label>
+    <label><input type="checkbox" data-id="crise5" /> 🧹 Botão de pânico</label>
+    <label><input type="checkbox" data-id="crise6" /> 🕶️ Modo disfarçado</label>
+    <label><input type="checkbox" data-id="crise7" /> 💾 Backup criptografado local</label>
+    <label><input type="checkbox" data-id="crise8" /> 🧩 Mini-PC com Linux leve</label>
+  </details>
+
+  <details>
+    <summary>📚 Biblioteca Offline</summary>
+    <ul>
+      <li><a href="https://survival.arkhor.com/manuals/" target="_blank">📘 Manuais de sobrevivência</a></li>
+      <li><a href="https://wikitravel.org" target="_blank">🗺️ Wikitravel Offline</a></li>
+      <li><a href="https://www.gutenberg.org/" target="_blank">📖 Projeto Gutenberg</a></li>
+      <li><a href="https://www.kiwix.org/" target="_blank">📚 Kiwix (Wikipedia Offline)</a></li>
+    </ul>
+  </details>
+</section>
+ 
+  <div id="stealth-ui">Calculadora pronta<br>0 + 0 = 0</div>
+ 
+  <footer>
+    <p>Resista com consciência.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+  <script> 
+  
+    const cbList = document.querySelectorAll('input[type="checkbox"]');
+    const gun = Gun();
+    let useSync = false;
+    const syncKey = 'resist-kit';
+   
+     function updateCheckboxes(fromGun = false) {
+      cbList.forEach(cb => {
+        const id = cb.dataset.id;
+        const saved = localStorage.getItem(id);
+        cb.checked = saved === 'true';
+        cb.onchange = () => {
+          localStorage.setItem(id, cb.checked);
+          if (useSync && !fromGun) gun.get(syncKey).get(id).put(cb.checked);
+        };
+      });
+    }
+    
+      
+  function loadFromGun() {
+      cbList.forEach(cb => {
+        const id = cb.dataset.id;
+        gun.get(syncKey).get(id).once(data => {
+          if (data !== undefined) {
+            cb.checked = data;
+            localStorage.setItem(id, data);
+          }
+        });
+      });
+    }
+        
+ document.getElementById('backupBtn').onclick = () => {
+      const data = {};
+      cbList.forEach(cb => data[cb.dataset.id] = cb.checked);
+      const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'kit-backup.json';
+      link.click();
+};
+    
+ document.getElementById('restoreBtn').onclick = () => document.getElementById('fileInput').click();
+    document.getElementById('fileInput').onchange = e => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = JSON.parse(reader.result);
+        for (let key in data) {
+          localStorage.setItem(key, data[key]);
+        }
+        updateCheckboxes();
+      };
+      reader.readAsText(e.target.files[0]);
+    };
+
+      
+document.getElementById('toggleSyncBtn').onclick = function () {
+      useSync = !useSync;
+      this.textContent = useSync ? '🔗 Sincronização ON' : '🔗 Sincronização OFF';
+      if (useSync) loadFromGun();
+};
+      
+function toggleTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+}
+
+ function toggleStealth() {
+      const stealth = document.body.getAttribute('data-stealth') === 'true';
+      document.body.setAttribute('data-stealth', stealth ? 'false' : 'true');
+ }
+
+function panicErase() {
+      if (confirm('Tem certeza? Isso apagará todos os dados locais do navegador!')) {
+        localStorage.clear();
+        location.reload();
+      }
+ }
+      
+    updateCheckboxes(); 
+  </script>
+  <script>
+   if ('serviceWorker' in navigator) {
+      window.addEventListener('DOMContentLoaded', function () {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function (registration) {
+            console.log('Service Worker registrado com sucesso:', registration.scope);
+          })
+          .catch(function (error) {
+            console.log('Falha ao registrar o Service Worker:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
