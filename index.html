@@ -1,192 +1,82 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <meta name="theme-color" content="#e0dede">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Kit"> 
-  <title>Kit de Resistência Digital</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kit de Resistência Digital — Modos Inteligentes</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#e0dede" />
+  <link rel="manifest" href="manifest.json" />
   <style>
-   
-      :root {
+    :root {
       --bg-color: #f5f5f5;
       --text-color: #222;
       --link-color: #0066cc;
       --link-hover: #004999;
+      --accent: #2b7cff;
+      --mono: monospace;
     }
+    [data-theme="dark"] { --bg-color:#121212; --text-color:#eee; --link-color:#66aaff; }
+    [data-theme="eink"] { --bg-color:#fff; --text-color:#000; --link-color:#000; }
+    html,body{margin:0;padding:1rem;background:var(--bg-color);color:var(--text-color);font-family:var(--mono);transition:background-color .3s,color .3s}
+    header{padding:1rem;text-align:center;border-bottom:2px solid #999;background:linear-gradient(to right,#ccc,#eee)}
+    h1{margin:0;font-size:1.4rem}
+    .btn-group{text-align:center;margin:1rem 0}
+    button{font-family:var(--mono);margin:0 .4rem;padding:.4rem .8rem;border-radius:6px;border:1px solid #666;background:var(--bg-color);color:var(--text-color);cursor:pointer}
+    button:hover{background:var(--link-color);color:#fff}
+    section{margin-top:1rem}
+    details{background:#fff;border:1px solid #ccc;border-radius:8px;margin-bottom:1rem;padding:.5rem 1rem;box-shadow:2px 2px 5px rgba(0,0,0,.1)}
+    summary{cursor:pointer;font-weight:bold}
+    label{display:block;margin:.25rem 0}
+    input[type="checkbox"]{margin-right:.5rem}
+    .app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin-top:1rem}
+    .app-tile{background:#fff;border:1px solid #ccc;border-radius:12px;padding:1rem;text-align:center;box-shadow:1px 1px 4px rgba(0,0,0,.1)}
+    .emoji{font-size:2rem}
+    footer{text-align:center;font-size:.85rem;color:#666;margin-top:2rem}
 
-     [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #eee;
-      --link-color: #66aaff;
-      --link-hover: #aaccee;
-    }
-    [data-theme="eink"] {
-      --bg-color: #fff;
-      --text-color: #000;
-      --link-color: #000;
-      --link-hover: #444;
-    }
-    html, body {
-      margin: 0;
-      padding: 1rem;
-      background: var(--bg-color);
-      color: var(--text-color);
-      font-family: monospace;
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-    body[data-stealth="true"] {
-      background: #111;
-      color: #0f0;
-      font-family: monospace;
-    }
-    body[data-stealth="true"] header,
-    body[data-stealth="true"] section,
-    body[data-stealth="true"] footer {
-      display: none;
-    }
-  body[data-stealth="true"] #stealth-ui {
-      display: block;
-      padding: 2rem;
-      font-size: 1.5rem;
-    }
-    #stealth-ui {
-      display: none;
-    }
-    a {
-      color: var(--link-color);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    a:hover {
-      color: var(--link-hover);
-      text-decoration: underline;
-    }
+    /* Modes & UI variants */
+    /* Blackout */
+    body[data-blackout="true"]{background:#000 !important;color:#fff !important;filter:brightness(.6)}
+    body[data-blackout="true"] *{background:transparent !important;box-shadow:none !important;border-color:#444 !important}
 
-   header {
-      background: linear-gradient(to right, #ccc, #eee);
-      box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.6);
-      padding: 1rem;
-      border-bottom: 2px solid #999;
-      text-align: center;
-      user-select: none;
-    }
+    /* Terminal bunker (green) */
+    body[data-bunker="true"]{background:#001800 !important;color:#33ff33 !important}
+    body[data-bunker="true"] *{background:transparent !important;border-color:#0f0 !important;box-shadow:none}
 
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-    section {
-      margin-top: 1rem;
-    }
-    details {
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      padding: 0.5rem 1rem;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
+    /* RF Silent */
+    body[data-rf-silent="true"] *{pointer-events:none !important;opacity:.92}
 
+    /* Civil (disguise) */
+    body[data-civil="true"] header, body[data-civil="true"] section, body[data-civil="true"] footer {display:none !important}
+    #civil-ui{display:none;padding:2rem;text-align:center;font-family:var(--mono);font-size:1.2rem}
+    body[data-civil="true"] #civil-ui{display:block !important}
 
-    summary {
-      cursor: pointer;
-      font-weight: bold;
-    }
-    label {
-      display: block;
-      margin: 0.25rem 0;
-    }
-    input[type="checkbox"] {
-      margin-right: 0.5rem;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 2rem;
-      user-select: none;
-    }
+    /* Min info */
+    body[data-min-info="true"]{background:#ddd !important;color:#000 !important;filter:contrast(.75) brightness(.9)}
+    body[data-min-info="true"] *{animation:none !important;transition:none !important;box-shadow:none !important}
 
-    /* Grid de apps pessoais */
-    .app-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
+    /* Alerta vermelho */
+    #alert-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,0,0,.18);mix-blend-mode:multiply;animation:alertPulse .7s infinite alternate;pointer-events:none;display:none}
+    @keyframes alertPulse{from{opacity:.1}to{opacity:.6}}
+    body[data-alert="true"] #alert-overlay{display:block}
 
-    .app-tile {
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
+    /* Sinal panel */
+    #sinal-panel{display:none;margin-top:1rem;padding:1rem;border:1px solid #888;border-radius:10px}
+    #sinal-panel.active{display:block}
+    .sinal-btn{padding:.6rem;margin:.3rem 0;border-radius:6px;cursor:pointer;width:100%;font-family:var(--mono)}
+    .safe{background:#0a0;color:#fff}.alert{background:#cc0;color:#000}.danger{background:#a00;color:#fff}.medic{background:#06c;color:#fff}
 
-    .app-tile[data-theme="dark"],
-    .app-tile[data-theme="eink"] {
-      background: var(--bg-color);
-      color: var(--text-color);
-      border-color: #666;
-      box-shadow: none;
-    }
-
-    .app-tile a {
-      display: block;
-      text-decoration: none;
-      color: var(--text-color);
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-    }
-
-    .app-tile a:hover {
-      text-decoration: underline;
-    }
-
-    .emoji {
-      font-size: 2rem;
-    }
-
-    /* Botões */
-    .btn-group {
-      margin: 1rem 0;
-      text-align: center;
-    }
-
-    button {
-      font-family: monospace;
-      margin: 0 0.5rem;
-      padding: 0.4rem 1rem;
-      border-radius: 6px;
-      border: 1px solid #666;
-      background: var(--bg-color);
-      color: var(--text-color);
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      user-select: none;
-    }
-
-    button:hover {
-      background: var(--link-color);
-      color: #fff;
-    }
+    /* HUD (small) */
+    #hud{position:fixed;right:8px;bottom:8px;padding:.5rem .6rem;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;font-size:.8rem;z-index:9999}
+    #hud div{margin:2px 0}
+    @media (min-width:900px){#hud{right:16px;bottom:16px}}
   </style>
 </head>
-
 <body data-theme="default">
 
   <header>
-    <h1>🛠️ Kit de Resistência Digital – Pessoal e Offline</h1>
+    <h1>🛠️ Kit de Resistência Digital — Modos Inteligentes</h1>
+
     <div class="btn-group">
       <button onclick="toggleTheme('default')">Tema Claro</button>
       <button onclick="toggleTheme('eink')">Modo E-Ink</button>
@@ -194,20 +84,19 @@
       <button onclick="toggleStealth()">🕶️ Modo Disfarçado</button>
       <button onclick="panicErase()">🧹 Apagar Dados</button>
     </div>
+
     <div class="btn-group">
       <button id="backupBtn">💾 Exportar Backup</button>
       <button id="restoreBtn">♻️ Restaurar Backup</button>
       <input type="file" id="fileInput" style="display:none" accept=".json" />
-    </div>
-    <div class="btn-group">
       <button id="toggleSyncBtn">🔗 Sincronização OFF</button>
     </div>
   </header>
-  
-   <section>
+
+  <section>
     <details open>
       <summary>🔐 Navegação e Privacidade</summary>
-      <label><input type="checkbox" data-id="nav1" /> 🦁 Instalar</a> <a href="https://brave.com/" target="_blank"
+          <label><input type="checkbox" data-id="nav1" /> 🦁 Instalar</a> <a href="https://brave.com/" target="_blank"
           rel="noopener noreferrer">Brave</a></label>
       <label><input type="checkbox" data-id="nav2" /> 🧩 <a href="https://ublockorigin.com/" target="_blank"
           rel="noopener noreferrer">uBlock Origin</a>, <a href="https://privacybadger.org/" target="_blank"
@@ -232,8 +121,8 @@
           rel="noopener noreferrer">ProtonMail</a> ou <a href="https://tutanota.com/" target="_blank"
           rel="noopener noreferrer">Tutanota</a></label>
     </details>
-
-    <details>
+    
+     <details>
       <summary>💻 Software e Armazenamento Livre</summary>
       <label><input type="checkbox" data-id="soft1" /> ☁️ <a href="https://nextcloud.com/" target="_blank"
           rel="noopener noreferrer">Nextcloud</a> ou <a href="https://syncthing.net/" target="_blank"
@@ -243,24 +132,8 @@
       <label><input type="checkbox" data-id="soft3" /> 📡 Usar leitor de <a href="https://feedly.com/" target="_blank"
           rel="noopener noreferrer">Feed RSS</a></label>
     </details>
-
-    <details>
-      <summary>📂 Apps Offline Essenciais (PWAs)</summary>
-      <label><input type="checkbox" data-id="apps1" /> ✍️ Editor de texto local com IndexedDB</label>
-      <label><input type="checkbox" data-id="apps2" /> 🗂️ Gerenciador de arquivos local (navegador)</label>
-      <label><input type="checkbox" data-id="apps3" /> 📝 Lembretes e blocos de anotações com salvamento
-        automático</label>
-      <label><input type="checkbox" data-id="apps4" /> 📖 Leitor de e-books e Markdown local</label>
-    </details>
-
-    <details>
-      <summary>🚫 Desintoxicação Digital</summary>
-      <label><input type="checkbox" data-id="detox1" /> 🔕 Desligar notificações desnecessárias</label>
-      <label><input type="checkbox" data-id="detox2" /> ⏳ Estabelecer tempo offline diário</label>
-      <label><input type="checkbox" data-id="detox3" /> 📵 Reduzir redes sociais a uso essencial</label>
-    </details>
-
-    <details>
+    
+      <details>
       <summary>🌍 Modo Nômade / Sem Internet</summary>
       <label><input type="checkbox" data-id="nomade1" /> 📲 Instalar apps via <a href="https://f-droid.org/"
           target="_blank" rel="noopener noreferrer">F-Droid</a> e <a href="https://auroraoss.com/" target="_blank"
@@ -273,39 +146,79 @@
       <label><input type="checkbox" data-id="nomade4" /> 🧰 Criar servidor local com PWAs essenciais</label>
 
     </details>
-  </section>
-  <section>
-    <h2>📁 Atalhos Pessoais</h2>
-    <div class="app-grid">
-      <div class="app-tile">
-        <div class="emoji">🗂️</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/filemanager.html">Gerenciador</a>
-      </div>
-      <div class="app-tile">
-        <div class="emoji">🧮</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/word/word.html">Editor</a>
-      </div>
-      <div class="app-tile">
-        <div class="emoji">🧠</div><a href="https://webdesktop-b5wu.onrender.com/">Desktop</a>
-      </div>
-      <div class="app-tile">
-        <div class="emoji">🔗</div><a href="./links.html">Atalhos</a>
-      </div>
-    </div>
-  </section>
-  
-  <section>
-  <details>
+    
+     <details>
+      <summary>🚫 Desintoxicação Digital</summary>
+      <label><input type="checkbox" data-id="detox1" /> 🔕 Desligar notificações desnecessárias</label>
+      <label><input type="checkbox" data-id="detox2" /> ⏳ Estabelecer tempo offline diário</label>
+      <label><input type="checkbox" data-id="detox3" /> 📵 Reduzir redes sociais a uso essencial</label>
+    </details>
+    
+      <details>
     <summary>🚨 Cenário de Crise Total</summary>
     <label><input type="checkbox" data-id="crise1" /> 🔋 Uso com energia mínima</label>
     <label><input type="checkbox" data-id="crise2" /> 📦 Kit portátil em pendrive</label>
     <label><input type="checkbox" data-id="crise3" /> 🛜 Redes mesh offline</label>
-    <label><input type="checkbox" data-id="crise4" /> 📚 Biblioteca offline básica</label>
-    <label><input type="checkbox" data-id="crise5" /> 🧹 Botão de pânico</label>
-    <label><input type="checkbox" data-id="crise6" /> 🕶️ Modo disfarçado</label>
     <label><input type="checkbox" data-id="crise7" /> 💾 Backup criptografado local</label>
-    <label><input type="checkbox" data-id="crise8" /> 🧩 Mini-PC com Linux leve</label>
-  </details>
+   </details>
+    
+  </section>
 
-  <details>
+  <section>
+    <h2>📁 Atalhos Pessoais</h2>
+    <div class="app-grid">
+      <div class="app-tile"><div class="emoji">🗂️</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/filemanager.html">Gerenciador</a></div>
+      <div class="app-tile"><div class="emoji">🧮</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/word/word.html">Editor</a></div>
+      <div class="app-tile"><div class="emoji">🧠</div><a href="https://webdesktop-b5wu.onrender.com/">Desktop</a></div>
+      <div class="app-tile"><div class="emoji">🔗</div><a href="./links.html">Atalhos</a></div>
+    </div>
+  </section>
+
+  <!-- ===== Consolidated Mode Control Section ===== -->
+  <section>
+    <details open>
+      <summary>⚙️ Modos Inteligentes (Escolha um)</summary>
+
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem">
+        <label style="margin:0"><input type="checkbox" data-id="mode_war"> 🛡️ Modo Guerra</label>
+        <label style="margin:0"><input type="checkbox" data-id="mode_collapse"> 🌑 Modo Colapso</label>
+        <label style="margin:0"><input type="checkbox" data-id="mode_blackout"> 🌘 Modo Blackout</label>
+      </div>
+
+      <p style="margin-top:.6rem;font-size:.9rem;color:#444">Marcar um modo aplica um conjunto de medidas e sub-itens. Os sub-itens também podem ser marcados individualmente.</p>
+
+      <!-- Subitems: grouped, non-redundant -->
+      <details>
+        <summary>🔒 Contra-vigilância & Comunicação</summary>
+        <label><input type="checkbox" data-id="war_surveil1"> 📡 Silêncio de RF (bloqueios de APIs)</label>
+        <label><input type="checkbox" data-id="war_surveil2"> 🕵️ Modo Civil (disfarce)</label>
+        <label><input type="checkbox" data-id="war_com2"> 🧩 Mensagens codificadas (guia)</label>
+        <label><input type="checkbox" data-id="war_com4"> 📟 Tabela de sinais pré-acordados</label>
+      </details>
+
+      <details>
+        <summary>🔋 Energia & Autossuficiência</summary>
+        <label><input type="checkbox" data-id="postapoc_energy1"> 🔌 Painel solar portátil</label>
+        <label><input type="checkbox" data-id="postapoc_energy2"> 🔋 Powerbank LiFePO4</label>
+        <label><input type="checkbox" data-id="war_energy2"> 🪫 Modo Super-Econômico</label>
+        <label><input type="checkbox" data-id="postapoc_digi3"> 🧩 Reinstalação via pendrive</label>
+      </details>
+
+      <details>
+        <summary>🗺️ Mapas & Mobilidade</summary>
+        <label><input type="checkbox" data-id="war_map1"> 🗺️ Mapas offline / GPX</label>
+        <label><input type="checkbox" data-id="war_move4"> 🎒 Mochila 72h / Evacuação</label>
+        <label><input type="checkbox" data-id="war_move5"> 🗺️ Rotas alternativas</label>
+      </details>
+
+      <details>
+        <summary>🩺 Saúde & Segurança</summary>
+        <label><input type="checkbox" data-id="postapoc_lib1"> 🩺 Primeiros Socorros</label>
+        <label><input type="checkbox" data-id="war_med3"> 🚰 Purificação de água</label>
+        <label><input type="checkbox" data-id="war_med4"> 🧯 Segurança química / fumaça</label>
+      </details>
+      
+      <details>
     <summary>📚 Biblioteca Offline</summary>
     <ul>
       <li><a href="material" target="_blank">📘 Material</a></li>
@@ -314,106 +227,403 @@
       <li><a href="https://www.kiwix.org/" target="_blank">📚 Kiwix (Wikipedia Offline)</a></li>
     </ul>
   </details>
-</section>
- 
+
+      <details>
+        <summary>🕶️ Modos & Estética</summary>
+        <label><input type="checkbox" data-id="postapoc_mode1"> 🟩 Terminal de Bunker</label>
+        <label><input type="checkbox" data-id="postapoc_mode2"> 🟡 Painel de Códigos/Sinais</label>
+        <label><input type="checkbox" data-id="postapoc_energy4"> 🌑 Blackout Total</label>
+        <label><input type="checkbox" data-id="postapoc_mode5"> 📡 Frequências de emergência</label>
+      </details>
+
+    </details>
+  </section>
+
+  <div id="sinal-panel">
+    <button class="sinal-btn safe" onclick="emitirSinal('safe')">🟢 SEGURO</button>
+    <button class="sinal-btn alert" onclick="emitirSinal('alert')">🟡 ALERTA</button>
+    <button class="sinal-btn danger" onclick="emitirSinal('danger')">🔴 PERIGO</button>
+    <button class="sinal-btn medic" onclick="emitirSinal('medic')">⚪ AJUDA MÉDICA</button>
+  </div>
+
   <div id="stealth-ui">Calculadora pronta<br>0 + 0 = 0</div>
- 
-  <footer>
-    <p>Resista com consciência.</p>
-  </footer>
+  <div id="civil-ui">Aplicativo Comum<br>Pronto</div>
+  <div id="alert-overlay"></div>
+  <div id="hud" aria-hidden="true">
+    <div id="hud-modes">Modos: —</div>
+    <div id="hud-battery">Bateria: —</div>
+    <div id="hud-last">Último gatilho: —</div>
+  </div>
+
+  <footer><p>Resista com consciência.</p></footer>
+
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
-  <script> 
-  
-    const cbList = document.querySelectorAll('input[type="checkbox"]');
-    const gun = Gun();
-    let useSync = false;
-    const syncKey = 'resist-kit';
-   
-     function updateCheckboxes(fromGun = false) {
-      cbList.forEach(cb => {
-        const id = cb.dataset.id;
-        const saved = localStorage.getItem(id);
-        cb.checked = saved === 'true';
-        cb.onchange = () => {
-          localStorage.setItem(id, cb.checked);
-          if (useSync && !fromGun) gun.get(syncKey).get(id).put(cb.checked);
-        };
-      });
-    }
-    
-      
-  function loadFromGun() {
-      cbList.forEach(cb => {
-        const id = cb.dataset.id;
-        gun.get(syncKey).get(id).once(data => {
-          if (data !== undefined) {
-            cb.checked = data;
-            localStorage.setItem(id, data);
-          }
-        });
-      });
-    }
-        
- document.getElementById('backupBtn').onclick = () => {
-      const data = {};
-      cbList.forEach(cb => data[cb.dataset.id] = cb.checked);
-      const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'kit-backup.json';
-      link.click();
-};
-    
- document.getElementById('restoreBtn').onclick = () => document.getElementById('fileInput').click();
-    document.getElementById('fileInput').onchange = e => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const data = JSON.parse(reader.result);
-        for (let key in data) {
-          localStorage.setItem(key, data[key]);
-        }
-        updateCheckboxes();
-      };
-      reader.readAsText(e.target.files[0]);
-    };
-
-      
-document.getElementById('toggleSyncBtn').onclick = function () {
-      useSync = !useSync;
-      this.textContent = useSync ? '🔗 Sincronização ON' : '🔗 Sincronização OFF';
-      if (useSync) loadFromGun();
-};
-      
-function toggleTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-}
-
- function toggleStealth() {
-      const stealth = document.body.getAttribute('data-stealth') === 'true';
-      document.body.setAttribute('data-stealth', stealth ? 'false' : 'true');
- }
-
-function panicErase() {
-      if (confirm('Tem certeza? Isso apagará todos os dados locais do navegador!')) {
-        localStorage.clear();
-        location.reload();
-      }
- }
-      
-    updateCheckboxes(); 
-  </script>
   <script>
- if ('serviceWorker' in navigator) {
-      window.addEventListener('DOMContentLoaded', function () {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(function (registration) {
-            console.log('Service Worker registrado com sucesso:', registration.scope);
-          })
-          .catch(function (error) {
-            console.log('Falha ao registrar o Service Worker:', error);
-          });
+  /************************************************************************
+   * Core checkbox + storage + optional Gun sync (keeps parity with old)
+   ************************************************************************/
+  const cbList = Array.from(document.querySelectorAll('input[type="checkbox"][data-id]'));
+  const gun = Gun();
+  let useSync = false;
+  const syncKey = 'resist-kit';
+
+  function updateCheckboxes(fromGun = false) {
+    cbList.forEach(cb => {
+      const id = cb.dataset.id;
+      const saved = localStorage.getItem(id);
+      cb.checked = saved === 'true';
+      cb.onchange = () => {
+        localStorage.setItem(id, cb.checked);
+        if (useSync && !fromGun) gun.get(syncKey).get(id).put(cb.checked);
+      };
+    });
+  }
+
+  function loadFromGun() {
+    cbList.forEach(cb => {
+      const id = cb.dataset.id;
+      gun.get(syncKey).get(id).once(data => {
+        if (data !== undefined) {
+          cb.checked = data;
+          localStorage.setItem(id, data);
+        }
       });
+    });
+  }
+
+  document.getElementById('backupBtn').onclick = () => {
+    const data = {};
+    cbList.forEach(cb => data[cb.dataset.id] = cb.checked);
+    const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'kit-backup.json';
+    link.click();
+  };
+
+  document.getElementById('restoreBtn').onclick = () => document.getElementById('fileInput').click();
+  document.getElementById('fileInput').onchange = e => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const data = JSON.parse(reader.result);
+      for (let key in data) localStorage.setItem(key, data[key]);
+      updateCheckboxes();
+      // ensure modes triggered after restore
+      setTimeout(integrarModosComCheckboxes, 250);
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+
+  document.getElementById('toggleSyncBtn').onclick = function () {
+    useSync = !useSync;
+    this.textContent = useSync ? '🔗 Sincronização ON' : '🔗 Sincronização OFF';
+    if (useSync) loadFromGun();
+  };
+
+  function toggleTheme(theme) { document.body.setAttribute('data-theme', theme); }
+  function toggleStealth() { const s = document.body.getAttribute('data-stealth') === 'true'; document.body.setAttribute('data-stealth', s ? 'false' : 'true'); }
+  function panicErase(){ if(confirm('Tem certeza? Isso apagará TODOS os dados locais do navegador!')){ localStorage.clear(); location.reload(); } }
+
+  updateCheckboxes();
+
+  /************************************************************************
+   * Basic Mode Functions (atomic)
+   ************************************************************************/
+  function setHUD(modes, battery, last) {
+    const m = modes && modes.length ? modes.join(', ') : '—';
+    document.getElementById('hud-modes').textContent = 'Modos: ' + m;
+    if (battery !== undefined) document.getElementById('hud-battery').textContent = 'Bateria: ' + battery;
+    if (last) document.getElementById('hud-last').textContent = 'Último gatilho: ' + last;
+  }
+
+  // small helpers
+  function emitHUD(msg){ setHUD(getActiveModes(), undefined, msg); }
+
+  /* Mode primitives */
+  function toggleBlackout() { const s = document.body.getAttribute('data-blackout')==='true'; document.body.setAttribute('data-blackout', s ? 'false' : 'true'); emitHUD('Blackout toggled'); }
+  function toggleBunker() { const s = document.body.getAttribute('data-bunker')==='true'; document.body.setAttribute('data-bunker', s ? 'false' : 'true'); emitHUD('Bunker toggled'); }
+  function toggleSinalPanel() { const p = document.getElementById('sinal-panel'); p.classList.toggle('active'); emitHUD('Sinal Panel'); }
+  function emitirSinal(tipo){ const map={safe:'🟢 SEGURO',alert:'🟡 ALERTA',danger:'🔴 PERIGO',medic:'⚪ AJUDA MÉDICA'}; alert('Sinal emitido: '+map[tipo]); emitHUD('Sinal: '+map[tipo]); }
+
+  function toggleRFSilent(){ const s = document.body.getAttribute('data-rf-silent')==='true'; document.body.setAttribute('data-rf-silent', s ? 'false' : 'true'); emitHUD('RF Silent'); 
+    if (!s) { if (navigator.bluetooth) navigator.bluetooth.requestDevice = ()=>Promise.reject('RF-Silent'); if (navigator.wifi) navigator.wifi.scan = ()=>Promise.reject('RF-Silent'); if (navigator.serviceWorker?.controller) navigator.serviceWorker.controller.postMessage({action:'disableRF'}); }
+  }
+
+  async function apagaoDigitalTotal(){
+    if (!confirm('APAGÃO DIGITAL: isso apagará TUDO. Continuar?')) return;
+    // wipe storages
+    localStorage.clear(); sessionStorage.clear();
+    // indexedDB
+    if (window.indexedDB && indexedDB.databases) {
+      try {
+        const dbs = await indexedDB.databases();
+        dbs.forEach(db => indexedDB.deleteDatabase(db.name));
+      } catch(e){}
     }
+    // caches
+    if ('caches' in window){
+      try{ const names = await caches.keys(); for(const n of names) await caches.delete(n); }catch(e){}
+    }
+    // service workers
+    if (navigator.serviceWorker){
+      try{ const regs = await navigator.serviceWorker.getRegistrations(); for(const r of regs) await r.unregister(); }catch(e){}
+    }
+    emitHUD('Apagão executado');
+    location.reload();
+  }
+
+  function toggleCivil(){ const s = document.body.getAttribute('data-civil')==='true'; document.body.setAttribute('data-civil', s ? 'false' : 'true'); emitHUD('Civil toggled'); }
+  function toggleMinInfo(){ const s = document.body.getAttribute('data-min-info')==='true'; document.body.setAttribute('data-min-info', s ? 'false' : 'true'); emitHUD('MinInfo toggled'); }
+  function toggleAlertaVermelho(){ const s = document.body.getAttribute('data-alert')==='true'; document.body.setAttribute('data-alert', s ? 'false' : 'true'); emitHUD('Alerta Vermelho'); }
+
+  /* Utility: active modes (for HUD) */
+  function getActiveModes(){
+    const list = [];
+    if (document.body.getAttribute('data-blackout')==='true') list.push('Blackout');
+    if (document.body.getAttribute('data-bunker')==='true') list.push('Bunker');
+    if (document.body.getAttribute('data-rf-silent')==='true') list.push('RF Silent');
+    if (document.body.getAttribute('data-civil')==='true') list.push('Civil');
+    if (document.body.getAttribute('data-min-info')==='true') list.push('MinInfo');
+    if (document.body.getAttribute('data-alert')==='true') list.push('Alerta');
+    return list;
+  }
+
+  /************************************************************************
+   * Mode integration: map checkboxes to functions and smart modes
+   ************************************************************************/
+  const modoIntegracao = {
+    // atomic controls
+    "war_surveil1": toggleRFSilent,
+    "war_surveil2": toggleCivil,
+    "war_surveil3": apagaoDigitalTotal,
+    "war_mode3": toggleMinInfo,
+    "war_mode2": toggleAlertaVermelho,
+    "postapoc_mode1": toggleBunker,
+    "postapoc_mode2": toggleSinalPanel,
+    "postapoc_energy4": toggleBlackout,
+    // themes
+    "theme_light": ()=>toggleTheme('default'),
+    "theme_dark": ()=>toggleTheme('dark'),
+    "theme_eink": ()=>toggleTheme('eink'),
+    // grouped items are represented by their own checkboxes above (energy, maps, medical etc.)
+  };
+
+  function integrarModosComCheckboxes() {
+    cbList.forEach(cb => {
+      const id = cb.dataset.id;
+      if (modoIntegracao[id]) {
+        cb.addEventListener('change', ()=> {
+          try { modoIntegracao[id](); } catch(e){}
+          emitHUD('Checkbox: '+id);
+        });
+        // on load, if checked -> run
+        if (cb.checked) try{ modoIntegracao[id](); }catch(e){}
+      }
+    });
+
+    // Special: three intelligent modes (composed)
+    const warCheckbox = document.querySelector('[data-id="mode_war"]');
+    const collapseCheckbox = document.querySelector('[data-id="mode_collapse"]');
+    const blackoutCheckbox = document.querySelector('[data-id="mode_blackout"]');
+
+    function applyModeWar(on){
+      // War: RF silent, civil, mininfo, routes, comms short
+      try { if (on){ document.querySelector('[data-id="war_surveil1"]').checked = true; toggleRFSilent(); document.querySelector('[data-id="war_surveil2"]').checked = true; toggleCivil(); document.querySelector('[data-id="war_mode3"]').checked = true; toggleMinInfo(); } else {
+        // turn off those modes (best-effort)
+        if (document.body.getAttribute('data-rf-silent')==='true') toggleRFSilent();
+        if (document.body.getAttribute('data-civil')==='true') toggleCivil();
+        if (document.body.getAttribute('data-min-info')==='true') toggleMinInfo();
+      } } catch(e){}
+      localStorage.setItem('mode_war', on);
+      emitHUD('Modo Guerra '+(on?'ON':'OFF'));
+    }
+
+    function applyModeCollapse(on){
+      try { if (on){ document.querySelector('[data-id="postapoc_energy4"]').checked = true; toggleBlackout(); document.querySelector('[data-id="postapoc_mode1"]').checked = true; toggleBunker(); document.querySelector('[data-id="postapoc_mode2"]').checked = true; toggleSinalPanel(); } else {
+        if (document.body.getAttribute('data-blackout')==='true') toggleBlackout();
+        if (document.body.getAttribute('data-bunker')==='true') toggleBunker();
+        const p = document.getElementById('sinal-panel'); if (p.classList.contains('active')) p.classList.remove('active');
+      } } catch(e){}
+      localStorage.setItem('mode_collapse', on);
+      emitHUD('Modo Colapso '+(on?'ON':'OFF'));
+    }
+
+    function applyModeBlackout(on){
+      try { if (on){ if (document.body.getAttribute('data-blackout')!=='true') toggleBlackout(); } else { if (document.body.getAttribute('data-blackout')==='true') toggleBlackout(); } } catch(e){}
+      localStorage.setItem('mode_blackout', on);
+      emitHUD('Modo Blackout '+(on?'ON':'OFF'));
+    }
+
+    // wire checkboxes
+    if (warCheckbox) warCheckbox.addEventListener('change', ()=> applyModeWar(warCheckbox.checked));
+    if (collapseCheckbox) collapseCheckbox.addEventListener('change', ()=> applyModeCollapse(collapseCheckbox.checked));
+    if (blackoutCheckbox) blackoutCheckbox.addEventListener('change', ()=> applyModeBlackout(blackoutCheckbox.checked));
+
+    // on load, restore composed modes if checked
+    if (warCheckbox && warCheckbox.checked) applyModeWar(true);
+    if (collapseCheckbox && collapseCheckbox.checked) applyModeCollapse(true);
+    if (blackoutCheckbox && blackoutCheckbox.checked) applyModeBlackout(true);
+  }
+
+  setTimeout(integrarModosComCheckboxes, 200);
+
+  /************************************************************************
+   * Physical & Advanced triggers
+   ************************************************************************/
+
+  // Volume keys: Note: many browsers won't provide AudioVolumeDown/Up; keep as best-effort
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === 'AudioVolumeDown') { toggleCivil(); emitHUD('Gatilho: VolumeDown'); }
+    if (e.key === 'AudioVolumeUp') { toggleAlertaVermelho(); emitHUD('Gatilho: VolumeUp'); }
+  });
+
+  // visibility + volume for simulated "power+volumedown"
+  let powerPressed = false;
+  document.addEventListener('visibilitychange', ()=>{ powerPressed = document.hidden === true; });
+  window.addEventListener('keydown', (e)=>{ if (powerPressed && e.key === 'AudioVolumeDown'){ apagaoDigitalTotal(); emitHUD('Gatilho: Power+VolDown'); } });
+
+  // Shake detection (device motion)
+  let lastShake = 0;
+  window.addEventListener('devicemotion', (event)=>{
+    try {
+      const acc = event.accelerationIncludingGravity || {x:0,y:0,z:0};
+      const strength = Math.abs(acc.x||0) + Math.abs(acc.y||0) + Math.abs(acc.z||0);
+      if (strength > 35){
+        const now = Date.now();
+        if (now - lastShake > 1500){ toggleBunker(); emitHUD('Gatilho: Shake'); lastShake = now; }
+      }
+    } catch(e){}
+  });
+
+  // two quick upward moves -> Blackout
+  let upMoves = 0, upTimer = null;
+  window.addEventListener('devicemotion', (event)=>{
+    try {
+      if (event.acceleration && event.acceleration.y < -15){
+        upMoves++;
+        if (upMoves === 2){ toggleBlackout(); emitHUD('Gatilho: 2x up'); upMoves = 0; }
+        clearTimeout(upTimer); upTimer = setTimeout(()=> upMoves = 0, 800);
+      }
+    } catch(e){}
+  });
+
+  // 5 taps in corner -> RF Silent
+  let tapCount = 0, tapTimer = null;
+  window.addEventListener('touchstart', (e)=>{
+    try {
+      const t = e.touches[0]; const x = t.clientX, y = t.clientY;
+      const corner = (x > window.innerWidth * 0.75 && y < window.innerHeight * 0.25);
+      if (!corner) return;
+      tapCount++;
+      if (tapCount === 5){ toggleRFSilent(); emitHUD('Gatilho: 5 taps corner'); tapCount = 0; }
+      clearTimeout(tapTimer); tapTimer = setTimeout(()=> tapCount = 0, 1000);
+    } catch(e){}
+  });
+
+  // Secret touch pattern (4-corner grid)
+  let padrao = [], padraoTimer = null;
+  window.addEventListener('touchstart', (e)=>{
+    try {
+      const t = e.touches[0]; const x = t.clientX, y = t.clientY;
+      let zona = 0;
+      if (x < innerWidth*0.5 && y < innerHeight*0.5) zona = 1;
+      if (x >= innerWidth*0.5 && y < innerHeight*0.5) zona = 2;
+      if (x < innerWidth*0.5 && y >= innerHeight*0.5) zona = 3;
+      if (x >= innerWidth*0.5 && y >= innerHeight*0.5) zona = 4;
+      padrao.push(zona);
+      clearTimeout(padraoTimer);
+      padraoTimer = setTimeout(()=> padrao = [], 1200);
+      const seq = padrao.join('');
+      if (seq === '231'){ toggleCivil(); emitHUD('Gatilho: seq 231'); padrao = []; }
+      if (seq === '444'){ toggleBlackout(); emitHUD('Gatilho: seq 444'); padrao = []; }
+    } catch(e){}
+  });
+
+  // Voice activation (SpeechRecognition; requires permission)
+  function iniciarVoz(){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+    try {
+      const rec = new SpeechRecognition();
+      rec.lang = 'pt-BR'; rec.continuous = true; rec.interimResults = false;
+      rec.onresult = (ev)=> {
+        const texto = ev.results[ev.results.length-1][0].transcript.toLowerCase();
+        if (texto.includes('bunker')) { toggleBunker(); emitHUD('Voz: bunker'); }
+        if (texto.includes('apagão') || texto.includes('apagar tudo')) { apagaoDigitalTotal(); emitHUD('Voz: apagao'); }
+        if (texto.includes('civil')) { toggleCivil(); emitHUD('Voz: civil'); }
+        if (texto.includes('alerta')) { toggleAlertaVermelho(); emitHUD('Voz: alerta'); }
+      };
+      rec.onerror = ()=>{};
+      rec.start();
+    } catch(e){}
+  }
+  setTimeout(iniciarVoz, 1200);
+
+  // Battery level triggers
+  if (navigator.getBattery) {
+    navigator.getBattery().then(bat=>{
+      function checar(){
+        const pct = Math.round(bat.level*100)+'%';
+        document.getElementById('hud-battery').textContent = 'Bateria: '+pct;
+        if (bat.level <= 0.10){ if (document.body.getAttribute('data-min-info')!=='true'){ toggleMinInfo(); } if (document.body.getAttribute('data-blackout')!=='true'){ toggleBlackout(); } emitHUD('Bateria <=10%'); }
+        if (bat.level <= 0.05){ if (confirm('Bateria crítica! Deseja iniciar Apagão Digital?')) { apagaoDigitalTotal(); } }
+      }
+      bat.addEventListener('levelchange', checar); checar();
+    }).catch(()=>{});
+  }
+
+  // Ambient light sensor (if available)
+  try {
+    const sensor = new AmbientLightSensor();
+    sensor.onreading = ()=> {
+      if (sensor.illuminance < 1) { toggleBunker(); emitHUD('Light sensor: dark'); }
+      if (sensor.illuminance > 5000) { toggleAlertaVermelho(); emitHUD('Light sensor: flash'); }
+    };
+    sensor.start();
+  } catch(e){ /* not supported */ }
+
+  // Microphone noise detector (requires permission)
+  async function iniciarSom(){
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+      const ctx = new AudioContext();
+      const mic = ctx.createMediaStreamSource(stream);
+      const analisador = ctx.createAnalyser(); analisador.fftSize = 512;
+      const buffer = new Uint8Array(analisador.frequencyBinCount);
+      mic.connect(analisador);
+      function monitor(){
+        requestAnimationFrame(monitor);
+        analisador.getByteTimeDomainData(buffer);
+        let soma=0;
+        for(let i=0;i<buffer.length;i++){ const v=(buffer[i]-128)/128; soma+=v*v; }
+        const volume = Math.sqrt(soma / buffer.length) * 100;
+        if (volume > 80) { toggleCivil(); emitHUD('Som: alto'); }
+        if (volume > 120) { toggleAlertaVermelho(); emitHUD('Som: explosao'); }
+      }
+      monitor();
+    } catch(e){ console.log('Mic não disponível/permissão negada.'); }
+  }
+  iniciarSom();
+
+  /************************************************************************
+   * HUD update loop
+   ************************************************************************/
+  setInterval(()=> {
+    setHUD(getActiveModes(), undefined, null);
+  }, 1500);
+
+  /************************************************************************
+   * Signal panel and service worker registration (safe)
+   ************************************************************************/
+  // Signal buttons already wired inline to emitirSinal
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('DOMContentLoaded', function () {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg=>console.log('SW registrado:', reg.scope))
+        .catch(err=>console.log('SW erro:', err));
+    });
+  }
   </script>
 </body>
 </html>
+
