@@ -252,7 +252,7 @@
     <button class="sinal-btn medic" onclick="emitirSinal('medic')">⚪ AJUDA MÉDICA</button>
   </div>
 
-  <div id="stealth-ui">Calculadora<br>0 + 0 = 0</div>
+  <div id="stealth-ui">Calculadora<br>Simples</div>
   <div id="civil-ui">
   <div class="calc-wrapper">
     <div id="calc-display">0</div>
@@ -630,7 +630,7 @@
   }, 1500);
 
 //para permitir sair clicando 5 vezes no texto de disfarce
-document.getElementById('civil-ui').onclick = function() {
+document.getElementById('stealth-ui').onclick = function() {
     this.dataset.clicks = (parseInt(this.dataset.clicks) || 0) + 1;
     if (this.dataset.clicks >= 5) {
         toggleCivil();
