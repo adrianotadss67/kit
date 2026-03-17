@@ -70,6 +70,12 @@
     #hud{position:fixed;right:8px;bottom:8px;padding:.5rem .6rem;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;font-size:.8rem;z-index:9999}
     #hud div{margin:2px 0}
     @media (min-width:900px){#hud{right:16px;bottom:16px}}
+    
+    .calc-wrapper { max-width: 300px; margin: 0 auto; background: #333; padding: 10px; border-radius: 10px; }
+#calc-display { background: #eee; color: #000; padding: 15px; text-align: right; font-size: 1.5rem; margin-bottom: 10px; border-radius: 5px; min-height: 1.5rem; overflow: hidden; }
+.calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.calc-buttons button { padding: 15px; font-size: 1.1rem; border: none; background: #555; color: #fff; border-radius: 5px; cursor: pointer; }
+.calc-buttons button:hover { background: #777; }
   </style>
 </head>
 <body data-theme="default">
@@ -246,8 +252,19 @@
     <button class="sinal-btn medic" onclick="emitirSinal('medic')">⚪ AJUDA MÉDICA</button>
   </div>
 
-  <div id="stealth-ui">Calculadora pronta<br>0 + 0 = 0</div>
-  <div id="civil-ui">Aplicativo Comum<br>Pronto</div>
+  <div id="stealth-ui">Calculadora<br>0 + 0 = 0</div>
+  <div id="civil-ui">
+  <div class="calc-wrapper">
+    <div id="calc-display">0</div>
+    <div class="calc-buttons">
+      <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button onclick="calcInput('/')">÷</button>
+      <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button onclick="calcInput('*')">×</button>
+      <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button onclick="calcInput('-')">-</button>
+      <button onclick="calcInput('0')">0</button><button onclick="calcInput('.')">.</button><button onclick="calcClear()">C</button><button onclick="calcInput('+')">+</button>
+      <button onclick="calcSolve()" style="grid-column: span 4; background: var(--accent); color: #fff">=</button>
+    </div>
+  </div>
+</div>
   <div id="alert-overlay"></div>
   <div id="hud" aria-hidden="true">
     <div id="hud-modes">Modos: —</div>
@@ -612,6 +629,46 @@
     setHUD(getActiveModes(), undefined, null);
   }, 1500);
 
+//para permitir sair clicando 5 vezes no texto de disfarce
+document.getElementById('civil-ui').onclick = function() {
+    this.dataset.clicks = (parseInt(this.dataset.clicks) || 0) + 1;
+    if (this.dataset.clicks >= 5) {
+        toggleCivil();
+        this.dataset.clicks = 0;
+    }
+};
+
+let calcExpression = "";
+const display = document.getElementById('calc-display');
+
+function calcInput(val) {
+    calcExpression += val;
+    display.textContent = calcExpression;
+}
+
+function calcClear() {
+    calcExpression = "";
+    display.textContent = "0";
+}
+
+function calcSolve() {
+    // Gatilho Secreto: Se o resultado ou a expressão for 1312, sai do modo civil
+    if (calcExpression === "1312") {
+        toggleCivil();
+        calcClear();
+        return;
+    }
+    
+    try {
+        // eval é seguro aqui pois o input é controlado pelos botões
+        const result = eval(calcExpression);
+        display.textContent = result;
+        calcExpression = result.toString();
+    } catch {
+        display.textContent = "Erro";
+        calcExpression = "";
+    }
+}
   /************************************************************************
    * Signal panel and service worker registration (safe)
    ************************************************************************/
