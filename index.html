@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kit de Resistência Digital — Modos Inteligentes</title>
+  <title>Kit Digital de Resistência — Modos Inteligentes</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#e0dede" />
   <link rel="manifest" href="manifest.json" />
@@ -81,7 +81,7 @@
 <body data-theme="default">
 
   <header>
-    <h1>🛠️ Kit de Resistência Digital — Modos Inteligentes</h1>
+    <h1>🛠️ Kit Digital de Resistência — Modos Inteligentes</h1>
 
     <div class="btn-group">
       <button onclick="toggleTheme('default')">Tema Claro</button>
@@ -117,7 +117,9 @@
     </details>
     
     <details>
-      <summary>📺 Mídia Alternativa</summary>
+      <summary>📺 Entretenimento e Mídia Alternativa</summary>
+	  <label><input type="checkbox" data-id="livros"> 📚 Livros digitais (diretamente úteis ou não)</label>
+	  <label><input type="checkbox" data-id="videosoffline"> 🎞️ Videos Armazenados</label>
       <label><input type="checkbox" data-id="med1" /> ⏩ <a href="https://odysee.com/" target="_blank"
           rel="noopener noreferrer">Odysee</a> ou ⏩ <a href="https://peertube.tv/" target="_blank"
           rel="noopener noreferrer">Peertube</a></label>
@@ -176,7 +178,7 @@
       <details>
     <summary>🚨 Cenário de Crise Total</summary>
     <label><input type="checkbox" data-id="crise1" /> 🔋 Uso com energia mínima</label>
-    <label><input type="checkbox" data-id="crise2" /> 📦 Kit portátil em pendrive</label>
+    <label><input type="checkbox" data-id="crise2" /> 📦 Kit portátil em pendrive (softwares, documentos, tutoriais, notas importantes e etc)</label>
     <label><input type="checkbox" data-id="crise3" /> 🛜 Redes mesh offline</label>
     <label><input type="checkbox" data-id="crise7" /> 💾 Backup criptografado local</label>
    </details>
@@ -186,9 +188,9 @@
   <section>
     <h2>📁 Atalhos Pessoais</h2>
     <div class="app-grid">
-      <div class="app-tile"><div class="emoji">🗂️</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/filemanager.html">Gerenciador</a></div>
-      <div class="app-tile"><div class="emoji">🧮</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/word/word.html">Editor</a></div>
-      <div class="app-tile"><div class="emoji">🧠</div><a href="https://webdesktop-b5wu.onrender.com/">Desktop</a></div>
+      <div class="app-tile"><div class="emoji">🗂️</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/filemanager.html">Gerenciador hospedado </a>ou <a href="http://localhost:8080/pwa%20web%20desktop%20mobile/offline_apps/filemanager.html">ou local</a></div>
+      <div class="app-tile"><div class="emoji">🧮</div><a href="https://webdesktop-b5wu.onrender.com/offline_apps/documentos/documentos.html">Editor</a> ou <a href="http://localhost:8080/pwa%20web%20desktop%20mobile/offline_apps/documentos/documentos.html">Editor local</a></div>
+      <div class="app-tile"><div class="emoji">🧠</div><a href="https://webdesktop-b5wu.onrender.com/">Desktop hospedado</a> ou <a href="http://localhost:8080/pwa%20web%20desktop%20mobile/">local</a></div>
       <div class="app-tile"><div class="emoji">🔗</div><a href="./links.html">Atalhos</a></div>
     </div>
   </section>
@@ -217,11 +219,38 @@
 
       <details>
         <summary>🔋 Energia & Autossuficiência</summary>
-        <label><input type="checkbox" data-id="postapoc_energy1"> 🔌 Painel solar portátil</label>
+        <label><input type="checkbox" data-id="postapoc_energy1"> 🔌 Painéis solares portáteis</label>
         <label><input type="checkbox" data-id="postapoc_energy2"> 🔋 Powerbank LiFePO4</label>
         <label><input type="checkbox" data-id="war_energy2"> 🪫 Modo Super-Econômico</label>
         <label><input type="checkbox" data-id="postapoc_digi3"> 🧩 Reinstalação via pendrive</label>
+		<label><input type="checkbox" data-id="lanterna"> 🔦 Lanterna (de chaveiro, de mão ou do celular se as outras faltarem)</label>
+		<label><input type="checkbox" data-id="isqueiro"> 🔥 Isqueiro, comum ou tipo Zippo</label>
+		<label><input type="checkbox" data-id="abrigo"> 🏚️ Abrigo: prioridade local ou de relacionados</label>
+		<label><input type="checkbox" data-id="recursos"> 🌳 Usar dos recursos da selva, se necessário</label>
       </details>
+	  
+	  <details>
+		<summary> 🧑‍🔧 Construção & Manutenção</summary>
+		<label><input type="checkbox" data-id="caixas"> 🧰 Armazenamentos locais e portáteis com redundancia de itens importantes</label>
+		<label><input type="checkbox" data-id="canivete"> 🔧 Canivete suíço e outras ferramentas</label>
+		<label><input type="checkbox" data-id="faca"> 🔪 Laminas diversas</label>
+		<label><input type="checkbox" data-id="fiodental"> 🧵 Fio dental</label>
+		<label><input type="checkbox" data-id="abracadeira"> 🪢 Abraçadeira de nylon</label>
+		<label><input type="checkbox" data-id="cola"> Super bonder ou genérico</label>
+		<label><input type="checkbox" data-id="bicarbonato"> 🛍️ Bicarbonato de sódio</label>
+		<label><input type="checkbox" data-id="verniz"> 🖌️ Verniz</label>
+		<label><input type="checkbox" data-id="tinta"> 🎨 Tinta Preta, prata, dourada, beje e primer</label>
+		<label><input type="checkbox" data-id="arames"> Arames de caderno e/ou outros</label>
+		<label><input type="checkbox" data-id="solderiron"> Ferro de solda industrial ou improvisado</label>
+	 </details>
+	  
+	 <details>
+		<summary> 🚗 Direção de Veiculos básica e avançada</summary>
+		<label><input type="checkbox" data-id="moto"> 🏍️ Moto</label>
+		<label><input type="checkbox" data-id="carro"> 🚗 Carro</label>
+		<label><input type="checkbox" data-id="camionete"> 🛻 Camionete</label>
+		<label><input type="checkbox" data-id="caminhao"> 🚚 Caminhão</label>
+	 </details>
 
       <details>
         <summary>🗺️ Mapas & Mobilidade</summary>
@@ -229,18 +258,37 @@
         <label><input type="checkbox" data-id="war_move4"> 🎒 Mochila 72h / Evacuação</label>
         <label><input type="checkbox" data-id="war_move5"> 🗺️ Rotas alternativas</label>
       </details>
+	  
+       <details>
+        <summary>🛡️ Defesa</summary>
+        <label><input type="checkbox" data-id="print"> Impressão 3d ou totalmente artesanal</label>
+	<label><input type="checkbox" data-id="treinamento"> 🤺 Treinamento de uso e físico</label>
+      </details>
 
       <details>
         <summary>🩺 Saúde & Segurança</summary>
         <label><input type="checkbox" data-id="postapoc_lib1"> 🩺 Primeiros Socorros</label>
-        <label><input type="checkbox" data-id="war_med3"> 🚰 Purificação de água</label>
+		<label><input type="checkbox" data-id="postapoc_lib2"> 💊 Remédios, cuidados e tratamentos</label>
+        <label><input type="checkbox" data-id="war_med3"> 🚰 Localização e purificação de água</label>
+        <label><input type="checkbox" data-id="garrafoes"> 🧴 Garrafoes de suco pra guardar água</label>
         <label><input type="checkbox" data-id="war_med4"> 🧯 Segurança química / fumaça</label>
+		<label><input type="checkbox" data-id="war_med5"> 🌱 Conhecimento da flora</label>
+      </details>
+	  
+	  <details>
+        <summary>🍲 Armazenamento de alimentos</summary>
+        <label><input type="checkbox" data-id="macarrao"> 🍝 Macarrão</label>
+        <label><input type="checkbox" data-id="arroz"> 🍛 Arroz</label>
+		<label><input type="checkbox" data-id="feijao"> 🫘 Feijão</label>
+        <label><input type="checkbox" data-id="sardinha"> 🐟🥫 Sardinha em lata</label>
+		<label><input type="checkbox" data-id="carneseca"> 🥓 Carne seca</label>
+		<label><input type="checkbox" data-id="agricultura"> 🌱 Básico de Agricultura</label>
       </details>
       
       <details>
     <summary>📚 Biblioteca Offline</summary>
     <ul>
-      <li><a href="material" target="_blank">📘 Material</a></li>
+	  <li><a href="material" target="_blank">📘 Material</a></li>
       <li><a href="https://wikitravel.org" target="_blank">🗺️ Wikitravel Offline</a></li>
       <li><a href="https://www.gutenberg.org/" target="_blank">📖 Projeto Gutenberg</a></li>
       <li><a href="https://www.kiwix.org/" target="_blank">📚 Kiwix (Wikipedia Offline)</a></li>
